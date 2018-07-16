@@ -11,7 +11,6 @@ const rootPrefix  = "../.."
   , DDBServiceBaseKlass = require(rootPrefix + "/services/dynamodb/base")
   , responseHelper = require(rootPrefix + '/lib/formatter/response')
   , coreConstants = require(rootPrefix + "/config/core_constants")
-  , logger = require(rootPrefix + "/lib/logger/custom_console_logger")
 ;
 
 /**
@@ -68,7 +67,7 @@ const TableExistPrototype = {
     const oThis = this
     ;
     return new Promise(async function (onResolve) {
-      const describeTableResponse = await oThis.ddbObject.call('describeTable', oThis.params);
+      const describeTableResponse = await oThis.ddbObject.queryDDB('describeTable', oThis.params);
       if (describeTableResponse.isFailure()) {
         return onResolve(responseHelper.successWithData({response: false, status: "DELETED"}));
       }

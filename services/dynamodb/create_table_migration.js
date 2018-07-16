@@ -252,7 +252,7 @@ const CreateTableMigrationPrototype = {
       // logger.info("Enable continuous backup done.");
 
       const describeTableParams = {TableName: tableName}
-        , describeTableResponse = await oThis.ddbObject.call('describeTable', describeTableParams)
+        , describeTableResponse = await oThis.ddbObject.queryDDB('describeTable', describeTableParams)
        ;
 
       onResolve(describeTableResponse)
