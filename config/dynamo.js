@@ -9,13 +9,6 @@ const AWS = require('aws-sdk')
 AWS.config.httpOptions.keepAlive = true;
 AWS.config.httpOptions.disableProgressEvents = false;
 
-
-const rootPrefix = "../"
-  , logger = require(rootPrefix + "/lib/logger/custom_console_logger")
-  , responseHelper = require(rootPrefix + '/lib/formatter/response')
-  , coreConstants = require(rootPrefix + "/config/core_constants")
-;
-
 // Default connection params mapping
 const defaultConnectionConfigMapping = {
   'default': {
@@ -112,31 +105,32 @@ dynamoConfig.prototype = {
   /**
    * Get provider
    *
-   * @param params
-   * @returns {DynamoDB connection object}
+   * @param clientID: clientID of client
+   * @param serviceType: type of service, either raw or docClient
+   * @returns DynamoDB connection object
    *
    */
-  getProvider: function (params) {
+  getProvider: function (clientID, serviceType) {
     const oThis = this;
-    oThis.clientID = params.clientID;
-    oThis.service = params.service;
-    oThis.connectionParams = oThis.getConfig(params);
+    oThis.clientID = clientID;
+    oThis.service = serviceType;
+    oThis.connectionParams = oThis.getConfig();
     if (oThis.service == oThis.raw) {
-      return oThis.createRawObject(oThis.connectionParams);
+      return oThis.createRawObject();
     }
     else if (oThis.service == oThis.documentClient) {
-      return oThis.createDocumentClientObject(oThis.connectionParams);
+      return oThis.createDocumentClientObject();
     }
     return null;
   },
 
-  createRawObject: function (connectionParams) {
+  createRawObject: function () {
     const oThis = this;
-    oThis.dynamoDBObject = new AWS.DynamoDB(connectionParams);
+    oThis.dynamoDBObject = new AWS.DynamoDB(oThis.connectionParams);
     return oThis.dynamoDBObject;
   },
 
-  createDocumentClientObject: function (connectionParams) {
+  createDocumentClientObject: function () {
     const oThis = this;
     if (oThis.isDaxEnabled) {
       oThis.dax = new AWSDaxClient(oThis.connectionParams);
@@ -149,11 +143,9 @@ dynamoConfig.prototype = {
     }
   },
 
-  getConfig: function (params) {
+  getConfig: function () {
     const oThis = this;
-    oThis.clientID = params.clientID;
-    oThis.service = params.service;
-    var connectionParams;
+    let connectionParams;
     if (clientConnectionConfigMapping.has(oThis.clientID)) {
       connectionParams = clientConnectionConfigMapping[oThis.clientID][oThis.service];
     }
