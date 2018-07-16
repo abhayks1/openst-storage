@@ -91,7 +91,7 @@ dynamoConfig.prototype = {
    * @constant {string}
    *
    */
-  documentClient: 'documentClient'
+  documentClient: 'DocumentClient'
   ,
 
   /**
@@ -113,12 +113,12 @@ dynamoConfig.prototype = {
   getProvider: function (clientID, serviceType) {
     const oThis = this;
     oThis.clientID = clientID;
-    oThis.service = serviceType;
+    oThis.serviceType = serviceType;
     oThis.connectionParams = oThis.getConfig();
-    if (oThis.service == oThis.raw) {
+    if (oThis.serviceType == oThis.raw) {
       return oThis.createRawObject();
     }
-    else if (oThis.service == oThis.documentClient) {
+    else if (oThis.serviceType == oThis.documentClient) {
       return oThis.createDocumentClientObject();
     }
     return null;
@@ -134,7 +134,7 @@ dynamoConfig.prototype = {
     const oThis = this;
     if (oThis.isDaxEnabled) {
       oThis.dax = new AWSDaxClient(oThis.connectionParams);
-      oThis.daxDocumentClientObject = new AWS.DynamoDB.DocumentClient({service: oThis.dax});
+      oThis.daxDocumentClientObject = new AWS.DynamoDB.DocumentClient({'service': oThis.dax});
       return oThis.daxDocumentClientObject;
     }
     else {
@@ -146,11 +146,11 @@ dynamoConfig.prototype = {
   getConfig: function () {
     const oThis = this;
     let connectionParams;
-    if (clientConnectionConfigMapping.has(oThis.clientID)) {
-      connectionParams = clientConnectionConfigMapping[oThis.clientID][oThis.service];
+    if (clientConnectionConfigMapping.hasOwnProperty(oThis.clientID)) {
+      connectionParams = clientConnectionConfigMapping[oThis.clientID][oThis.serviceType];
     }
     else {
-      connectionParams = defaultConnectionConfigMapping['default'][oThis.service];
+      connectionParams = defaultConnectionConfigMapping['default'][oThis.serviceType];
     }
     connectionParams['sslEnabled'] = (process.env.OS_DYNAMODB_SSL_ENABLED == 1);
     connectionParams['logger'] = (process.env.OS_DYNAMODB_LOGGING_ENABLED == 1);
