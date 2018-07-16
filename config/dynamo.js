@@ -23,7 +23,7 @@ const defaultConnectionConfigMapping = {
       'apiVersion': '2017-04-19',
       'accessKeyId': process.env.OS_DYNAMODB_ACCESS_KEY_ID,
       'secretAccessKey': process.env.OS_DYNAMODB_SECRET_ACCESS_KEY,
-      'region': OS_DYNAMODB_REGION,
+      'region': process.env.OS_DYNAMODB_REGION,
       'endpoint': process.env.OS_DYNAMODB_DAX_ENDPOINT
     }
   }
@@ -43,7 +43,7 @@ const clientConnectionConfigMapping = {
       'apiVersion': '2017-04-19',
       'accessKeyId': process.env.OS_DYNAMODB_ACCESS_KEY_ID,
       'secretAccessKey': process.env.OS_DYNAMODB_SECRET_ACCESS_KEY,
-      'region': OS_DYNAMODB_REGION,
+      'region': process.env.OS_DYNAMODB_REGION,
       'endpoint': process.env.OS_DYNAMODB_DAX_ENDPOINT
     }
   },
@@ -59,7 +59,7 @@ const clientConnectionConfigMapping = {
       'apiVersion': '2017-04-19',
       'accessKeyId': process.env.OS_DYNAMODB_ACCESS_KEY_ID,
       'secretAccessKey': process.env.OS_DYNAMODB_SECRET_ACCESS_KEY,
-      'region': OS_DYNAMODB_REGION,
+      'region': process.env.OS_DYNAMODB_REGION,
       'endpoint': process.env.OS_DYNAMODB_DAX_ENDPOINT
     }
   }
