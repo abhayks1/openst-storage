@@ -35,7 +35,9 @@ const UpdateItem = function (ddbObject, params, retryCount) {
     oThis.attemptToPerformCount = 1;
   }
 
-  base.call(oThis, ddbObject, 'updateItem', params);
+  // methodName is 'update' instead of 'updateItem' because DocumentClient supports the former.
+  // More info at https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html.
+  base.call(oThis, ddbObject, 'update', params);
 
 };
 
@@ -110,7 +112,7 @@ const updateItemPrototype = {
 
     return new Promise(function (resolve) {
       setTimeout(async function () {
-        let r = await oThis.ddbObject.call(oThis.methodName, updateItemParams);
+        let r = await oThis.ddbObject.queryDocClient(oThis.methodName, updateItemParams);
         resolve(r);
       }, waitTime);
     });

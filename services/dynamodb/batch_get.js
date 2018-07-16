@@ -27,7 +27,9 @@ const BatchGetItem = function (ddbObject, params, unprocessed_keys_retry_count) 
   ;
   oThis.unprocessedKeysRetryCount = unprocessed_keys_retry_count || 0;
 
-  base.call(oThis, ddbObject, 'batchGetItem', params);
+  // methodName is 'batchGet' instead of 'batchGetItem' because DocumentClient supports the former.
+  // More info at https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html.
+  base.call(oThis, ddbObject, 'batchGet', params);
 };
 
 BatchGetItem.prototype = Object.create(base.prototype);
@@ -75,7 +77,7 @@ const batchGetPrototype = {
 
       while (true) {
 
-        logger.info('executeDdbRequest batch_get attempNo ', attemptNo);
+        logger.info('executeDdbRequest batch_get attemptNo ', attemptNo);
 
         localResponse = await oThis.batchGetItemAfterWait(batchGetParams, waitTime);
 
@@ -170,7 +172,7 @@ const batchGetPrototype = {
 
     return new Promise(function (resolve) {
       setTimeout(async function () {
-        let r = await oThis.ddbObject.call(oThis.methodName, batchGetKeys);
+        let r = await oThis.ddbObject.queryDocClient(oThis.methodName, batchGetKeys);
         resolve(r);
       }, waitTime);
     });

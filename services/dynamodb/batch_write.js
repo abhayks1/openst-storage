@@ -28,7 +28,9 @@ const BatchWriteItem = function (ddbObject, params, unprocessed_items_retry_coun
   ;
   oThis.unprocessedItemsRetryCount = unprocessed_items_retry_count || 0;
 
-  base.call(oThis, ddbObject, 'batchWriteItem', params);
+  // methodName is 'batchWrite' instead of 'batchWriteItem' because DocumentClient supports the former.
+  // More info at https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html.
+  base.call(oThis, ddbObject, 'batchWrite', params);
 };
 
 BatchWriteItem.prototype = Object.create(base.prototype);
@@ -72,7 +74,7 @@ const batchWritePrototype = {
       ;
 
       while (true) {
-        logger.info('executeDdbRequest attempNo ', attemptNo);
+        logger.info('executeDdbRequest attemptNo ', attemptNo);
 
         response = await oThis.batchWriteItemAfterWait(batchWriteParams, waitTime);
 
@@ -150,7 +152,7 @@ const batchWritePrototype = {
 
     return new Promise(function (resolve) {
       setTimeout(async function () {
-        let r = await oThis.ddbObject.call(oThis.methodName, batchWriteParams);
+        let r = await oThis.ddbObject.queryDocClient(oThis.methodName, batchWriteParams);
         resolve(r);
       }, waitTime);
     });
