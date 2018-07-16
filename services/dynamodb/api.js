@@ -8,7 +8,7 @@
  */
 
 const rootPrefix  = "../.."
-  , DdbBase = require(rootPrefix+'/lib/dynamodb/base')
+  , DdbBase = require(rootPrefix + '/lib/dynamodb/base')
   , DDBServiceBaseKlass = require(rootPrefix + "/services/dynamodb/base")
   , TableExistServiceApiKlass = require(rootPrefix + '/services/dynamodb/table_exist')
   , WaitForServiceKlass = require(rootPrefix + "/services/dynamodb/wait_for")
@@ -153,7 +153,7 @@ DynamoDBService.prototype = {
   /**
    * Batch get
    *
-   * @params {Object} params - Params as per dynamo db batchGetItem api params
+   * @params {Object} params - Params as per dynamo db DocumentClient batchGet api params
    * @params {Integer} unprocessedKeysRetryCount - Retry count for unprocessed keys
    *
    * @return {promise<result>}
@@ -161,15 +161,15 @@ DynamoDBService.prototype = {
    */
   batchGetItem: function(params, unprocessedKeysRetryCount) {
     const oThis = this
-      , bathGetObject = new BatchGetItemKlass(oThis.ddbObject, params, unprocessedKeysRetryCount)
+      , batchGetObject = new BatchGetItemKlass(oThis.ddbObject, params, unprocessedKeysRetryCount)
     ;
-    return bathGetObject.perform();
+    return batchGetObject.perform();
   },
 
   /**
    * Batch write
    *
-   * @params {Object} params - Params as per dynamo db batchWriteItem api params
+   * @params {Object} params - Params as per dynamo db DocumentClient batchWrite api params
    * @params {Integer} unprocessedItemsRetryCount - Retry count for unprocessed Items
    *
    * @return {promise<result>}
@@ -230,7 +230,7 @@ DynamoDBService.prototype = {
   /**
    * Update item
    *
-   * @params {Object} params - Params as per dynamo db updateItem api params
+   * @params {Object} params - Params as per dynamo db DocumentClient update api params
    * @params {Integer} retryCount - Retry count for ProvisionedThroughputExceededException exception
    *
    * @return {promise<result>}

@@ -36,7 +36,7 @@ describe('Batch get', function () {
 
   it('batch get happy case', async function () {
     this.timeout(100000);
-    const bachGetParams = {
+    const batchGetParams = {
       RequestItems: {
         [testConstants.transactionLogTableName]: {
           Keys: [
@@ -69,13 +69,13 @@ describe('Batch get', function () {
       }
     };
     let returnCount = 3;
-    await  helper.performBatchGetTest(dynamoDBApi, bachGetParams , true, returnCount);
+    await  helper.performBatchGetTest(dynamoDBApi, batchGetParams , true, returnCount);
   });
 
 
   it('batch get partial valid cases', async function () {
     this.timeout(100000);
-    const bachGetParams = {
+    const batchGetParams = {
       RequestItems: {
         [testConstants.transactionLogTableName]: {
           Keys: [
@@ -108,12 +108,12 @@ describe('Batch get', function () {
       }
     };
     let returnCount = 2;
-    await  helper.performBatchGetTest(dynamoDBApi, bachGetParams , true, returnCount);
+    await  helper.performBatchGetTest(dynamoDBApi, batchGetParams , true, returnCount);
   });
 
   it('batch get zero keys', async function () {
     this.timeout(100000);
-    const bachGetParams = {
+    const batchGetParams = {
       RequestItems: {
         [testConstants.transactionLogTableName]: {
           Keys: [
@@ -122,12 +122,12 @@ describe('Batch get', function () {
       }
     };
     let returnCount = 0;
-    await  helper.performBatchGetTest(dynamoDBApi, bachGetParams , false, returnCount);
+    await  helper.performBatchGetTest(dynamoDBApi, batchGetParams , false, returnCount);
   });
 
   it('batch get none key match keys', async function () {
     this.timeout(100000);
-    const bachGetParams = {
+    const batchGetParams = {
       RequestItems: {
         [testConstants.transactionLogTableName]: {
           Keys: [
@@ -144,7 +144,7 @@ describe('Batch get', function () {
       }
     };
     let returnCount = 0;
-    await  helper.performBatchGetTest(dynamoDBApi, bachGetParams , true, returnCount);
+    await  helper.performBatchGetTest(dynamoDBApi, batchGetParams , true, returnCount);
   });
 
   after(function() {
