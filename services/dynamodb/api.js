@@ -17,6 +17,7 @@ const rootPrefix  = "../.."
   , BatchGetItemKlass = require(rootPrefix + '/services/dynamodb/batch_get')
   , BatchWriteItemKlass = require(rootPrefix + '/services/dynamodb/batch_write')
   , UpdateItemKlass = require(rootPrefix + '/services/dynamodb/update_item')
+  , DynamoFactory = require(rootPrefix + '/config/dynamo')
 ;
 
 /**
@@ -30,6 +31,7 @@ const DynamoDBService = function(params) {
   const oThis = this
   ;
 
+  oThis.clientId = params.clientId;
   oThis.ddbObject = new DdbBase(params);
 };
 
@@ -318,7 +320,9 @@ DynamoDBService.prototype = {
   shardManagement: function() {
     const oThis = this
     ;
-    return new ShardServiceApiKlass(oThis.ddbObject);
+    // Creating a dynamoDb instance here to be passed to the shard management Api.
+    const ddbInstance = DynamoFactory.getProvider(oThis.clientId, DynamoFactory.raw);
+    return new ShardServiceApiKlass(ddbInstance);
   }
 };
 
