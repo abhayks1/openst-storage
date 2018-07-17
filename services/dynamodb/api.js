@@ -31,7 +31,7 @@ const DynamoDBService = function(params) {
   const oThis = this
   ;
 
-  oThis.clientId = params.clientId;
+  oThis.clientId = params.clientId || 'default';
   oThis.ddbObject = new DdbBase(params);
 };
 
