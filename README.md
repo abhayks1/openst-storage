@@ -1,7 +1,7 @@
 # OpenST Storage
 
 OpenST Storage contains DB storage libraries and respective services. It also contains data sharding libraries and services. 
-While OpenST Storage is available as-is for anyone to use, we caution that this is early stage software and under heavy ongoing development and improvement. Please report bugs and suggested improvements.
+While OpenST Storage is available as-is for anyone to use, we caution that this is early stage software and under heavy ongoing development and improvement. Please report bugs and suggest improvements.
 
 ## Set ENV Variables
 
@@ -12,27 +12,29 @@ While OpenST Storage is available as-is for anyone to use, we caution that this 
 
 ## DynamoDB Apis
 
-For all DynamoDB methods parameters description please refer [AWS DynamoDB Docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html)  
+For all DynamoDB methods parameters description please refer [AWS DynamoDB Docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html).
 
-Note: Response of all the apis is in [ResponseHelper](https://github.com/OpenSTFoundation/openst-base/blob/master/lib/formatter/response_helper.js) object wrapped in Promise.
+Note: Be informed that for performance reasons some DB methods described below are using Amazon Dynamo Accelerator(DAX), due to which request format will vary for those.
+
+Note: Response of all the apis is a [ResponseHelper](https://github.com/OpenSTFoundation/openst-base/blob/master/lib/formatter/response_helper.js) object wrapped in Promise.
 
 #### DynamoDB constructor 
-&nbsp; params [dynamodbConnectionParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#constructor-property)
+&nbsp; params [clientId] - Client Id for which Dynamo query is done.
      
         const OSTStorage = require('@openstfoundation/openst-storage')
-           , ddbServiceObj  = new OSTStorage.DynamoDB(dynamodbConnectionParams);
+           , ddbServiceObj  = new OSTStorage.DynamoDB({clientId: 1001});
     
 
 #### Create table 
 &nbsp; params [createTableParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#createTable-property)
 
         //Create DynamoDB Table
-        ddbServiceObj.createTable(createTableParams);
+        ddbServiceObj.createTabl e(createTableParams);
 
 
 #### Create table migration 
 &nbsp; Table migration needs [autoScaleObject](#autoscaling-constructor)<br/>
-&nbsp; params createTableMigrationParams
+&nbsp; params createTableMigrationParams<br/>
 &nbsp; [params.createTableConfig](#create-table)<br/>
 &nbsp; [params.updateContinuousBackupConfig](#update-continuous-backups) <br/>
 &nbsp; [params.autoScalingConfig.registerScalableTargetWrite](#register-scalable-target)<br/>
@@ -80,44 +82,44 @@ Note: Response of all the apis is in [ResponseHelper](https://github.com/OpenSTF
     ddbServiceObj.deleteTable(deleteTableParams);
     
 #### Batch Get Item     
-&nbsp; params [batchGetItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#batchGetItem-property)
+&nbsp; params [batchGetItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#batchGet-property)
 
     // Batch Get Item
     ddbServiceObj.batchGetItem(batchGetItemParams);
 
 #### Batch Write Item
-&nbsp; params [batchWriteItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#batchWriteItem-property)<br/>
+&nbsp; params [batchWriteItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#batchWrite-property)<br/>
 &nbsp; params unprocessedItemsRetryCount Retry count for unprocessed Items
 
     // Batch Write Item
     ddbServiceObj.batchWriteItem(batchWriteItemParams, unprocessedRetryCount);
 
 #### Query
-&nbsp; params [queryParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#query-property)
+&nbsp; params [queryParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#query-property)
 
     // Query Items
     ddbServiceObj.query(queryParams);
  
 #### Scan
-&nbsp; params [scanParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#scan-property)
+&nbsp; params [scanParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#scan-property)
 
     // Scan Items
     ddbServiceObj.scan(scanParams);
 
 #### Put Item
-&nbsp; params [putItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#putItem-property)
+&nbsp; params [putItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property)
 
     // Put Items
     ddbServiceObj.putItem(putItemParams);
 
 #### Update Item   
-&nbsp; params [updateItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#updateItem-property)
+&nbsp; params [updateItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#update-property)
 
     // Update an Item
     ddbServiceObj.updateItem(updateItemParams);
 
 #### Delete Item    
-&nbsp; params [deleteItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#deleteItem-property)
+&nbsp; params [deleteItemParams](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#delete-property)
 
     // Delete Items
     ddbServiceObj.deleteItem(deleteItemParams);
