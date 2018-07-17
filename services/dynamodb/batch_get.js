@@ -59,7 +59,7 @@ const batchGetPrototype = {
    * @return {promise<result>}
    *
    */
-  executeDdbRequest: async function () {
+  executeDbRequest: async function () {
     const oThis = this
     ;
 
@@ -77,14 +77,14 @@ const batchGetPrototype = {
 
       while (true) {
 
-        logger.info('executeDdbRequest batch_get attemptNo ', attemptNo);
+        logger.info('executeDbRequest batch_get attemptNo ', attemptNo);
 
         localResponse = await oThis.batchGetItemAfterWait(batchGetParams, waitTime);
 
         if (!localResponse.isSuccess()) {
-          logger.error("services/dynamodb/batch_get.js:executeDdbRequest, attemptNo: ", attemptNo, localResponse.toHash());
+          logger.error("services/dynamodb/batch_get.js:executeDbRequest, attemptNo: ", attemptNo, localResponse.toHash());
           return responseHelper.error({
-            internal_error_identifier: "s_dy_bw_executeDdbRequest_1",
+            internal_error_identifier: "s_dy_bw_executeDbRequest_1",
             api_error_identifier: "exception",
             debug_options: {error: localResponse.toHash()},
             error_config: coreConstants.ERROR_CONFIG
@@ -150,9 +150,9 @@ const batchGetPrototype = {
       return globalResponse;
 
     } catch (err) {
-      logger.error("services/dynamodb/batch_get.js:executeDdbRequest inside catch ", err);
+      logger.error("services/dynamodb/batch_get.js:executeDbRequest inside catch ", err);
       return responseHelper.error({
-        internal_error_identifier: "s_dy_bw_executeDdbRequest_1",
+        internal_error_identifier: "s_dy_bw_executeDbRequest_1",
         api_error_identifier: "exception",
         debug_options: {error: err.message},
         error_config: coreConstants.ERROR_CONFIG

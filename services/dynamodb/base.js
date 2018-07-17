@@ -22,13 +22,14 @@ const rootPrefix  = "../.."
  *
  * @constructor
  */
-const Base = function(ddbObject, methodName, params) {
+const Base = function(ddbObject, methodName, params, serviceType) {
   const oThis = this
   ;
 
   oThis.params = params;
   oThis.ddbObject = ddbObject;
   oThis.methodName = methodName;
+  oThis.serviceType = serviceType;
 };
 
 Base.prototype = {
@@ -69,8 +70,8 @@ Base.prototype = {
     logger.debug(r);
     if (r.isFailure()) return r;
 
-    r = oThis.executeDdbRequest();
-    logger.debug("=======Base.executeDdbRequest.result=======");
+    r = oThis.executeDbRequest();
+    logger.debug("=======Base.executeDbRequest.result=======");
     logger.debug(r);
     return r;
 
@@ -116,16 +117,21 @@ Base.prototype = {
   },
 
   /**
-   * Execute dynamoDB request
+   * Execute dynamoDB/DocumentApi request
    *
    * @return {promise<result>}
    *
    */
-  executeDdbRequest: async function () {
+  executeDbRequest: async function () {
     const oThis = this
     ;
-    return await oThis.ddbObject.call(oThis.methodName, oThis.params);
-  },
+    if (oThis.serviceType === 'DocumentClient') {
+      return await oThis.ddbObject.queryDocClient(oThis.methodName, oThis.params);
+    }
+    else {
+      return await oThis.ddbObject.queryRaw(oThis.methodName, oThis.params);
+    }
+  }
 
 };
 

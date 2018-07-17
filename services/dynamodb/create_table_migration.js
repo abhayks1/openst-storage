@@ -149,7 +149,7 @@ const CreateTableMigrationPrototype = {
    *
    */
   // TODO Refactor to small methods
-  executeDdbRequest: function() {
+  executeDbRequest: function() {
     const oThis = this
       ;
     return new Promise(async function (onResolve) {
@@ -252,7 +252,7 @@ const CreateTableMigrationPrototype = {
       // logger.info("Enable continuous backup done.");
 
       const describeTableParams = {TableName: tableName}
-        , describeTableResponse = await oThis.ddbObject.queryDDB('describeTable', describeTableParams)
+        , describeTableResponse = await oThis.ddbObject.queryRaw('describeTable', describeTableParams)
        ;
 
       onResolve(describeTableResponse)

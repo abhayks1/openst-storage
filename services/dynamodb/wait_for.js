@@ -63,21 +63,21 @@ const waitForPrototype = {
    * @return {promise<result>}
    *
    */
-  executeDdbRequest: async function () {
+  executeDbRequest: async function () {
     const oThis = this
     ;
 
     try {
 
-      const r = await oThis.ddbObject.queryDDB(oThis.methodName, oThis.waitForMethod, oThis.params);
+      const r = await oThis.ddbObject.queryRaw(oThis.methodName, oThis.waitForMethod, oThis.params);
       logger.debug("=======Base.perform.result=======");
       logger.debug(r);
       return r;
 
     } catch (err) {
-      logger.error("services/dynamodb/base.js:executeDdbRequest inside catch ", err);
+      logger.error("services/dynamodb/base.js:executeDbRequest inside catch ", err);
       return responseHelper.error({
-        internal_error_identifier:"s_dy_b_executeDdbRequest_1",
+        internal_error_identifier:"s_dy_b_executeDbRequest_1",
         api_error_identifier: "exception",
         debug_options: {error: err.message},
         error_config: coreConstants.ERROR_CONFIG

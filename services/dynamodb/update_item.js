@@ -51,7 +51,7 @@ const updateItemPrototype = {
    * @return {promise<result>}
    *
    */
-  executeDdbRequest: async function () {
+  executeDbRequest: async function () {
     const oThis = this
     ;
 
@@ -87,9 +87,9 @@ const updateItemPrototype = {
       return response;
 
     } catch (err) {
-      logger.error("services/dynamodb/update_item.js:executeDdbRequest inside catch ", err);
+      logger.error("services/dynamodb/update_item.js:executeDbRequest inside catch ", err);
       return responseHelper.error({
-        internal_error_identifier: "s_dy_ui_executeDdbRequest_1",
+        internal_error_identifier: "s_dy_ui_executeDbRequest_1",
         api_error_identifier: "exception",
         debug_options: {error: err.message},
         error_config: coreConstants.ERROR_CONFIG

@@ -58,7 +58,7 @@ const batchWritePrototype = {
    * @return {promise<result>}
    *
    */
-  executeDdbRequest: async function () {
+  executeDbRequest: async function () {
     const oThis = this
     ;
 
@@ -74,14 +74,14 @@ const batchWritePrototype = {
       ;
 
       while (true) {
-        logger.info('executeDdbRequest attemptNo ', attemptNo);
+        logger.info('executeDbRequest attemptNo ', attemptNo);
 
         response = await oThis.batchWriteItemAfterWait(batchWriteParams, waitTime);
 
         if (!response.isSuccess()) {
-          logger.error("services/dynamodb/batch_write.js:executeDdbRequest, attemptNo: ", attemptNo, response.toHash());
+          logger.error("services/dynamodb/batch_write.js:executeDbRequest, attemptNo: ", attemptNo, response.toHash());
           return responseHelper.error({
-            internal_error_identifier: "s_dy_bw_executeDdbRequest_1",
+            internal_error_identifier: "s_dy_bw_executeDbRequest_1",
             api_error_identifier: "exception",
             debug_options: {error: response.toHash()},
             error_config: coreConstants.ERROR_CONFIG
@@ -130,9 +130,9 @@ const batchWritePrototype = {
       return response;
 
     } catch (err) {
-      logger.error("services/dynamodb/batch_write.js:executeDdbRequest inside catch ", err);
+      logger.error("services/dynamodb/batch_write.js:executeDbRequest inside catch ", err);
       return responseHelper.error({
-        internal_error_identifier: "s_dy_bw_executeDdbRequest_1",
+        internal_error_identifier: "s_dy_bw_executeDbRequest_1",
         api_error_identifier: "exception",
         debug_options: {error: err.message},
         error_config: coreConstants.ERROR_CONFIG

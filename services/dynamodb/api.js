@@ -192,7 +192,7 @@ DynamoDBService.prototype = {
    */
   query: function(params) {
     const oThis = this
-      , queryObject = new DDBServiceBaseKlass(oThis.ddbObject, 'query', params)
+      , queryObject = new DDBServiceBaseKlass(oThis.ddbObject, 'query', params, 'DocumentClient')
     ;
     return queryObject.perform();
   },
@@ -207,7 +207,7 @@ DynamoDBService.prototype = {
    */
   scan: function(params) {
     const oThis = this
-      , scanObject = new DDBServiceBaseKlass(oThis.ddbObject, 'scan', params)
+      , scanObject = new DDBServiceBaseKlass(oThis.ddbObject, 'scan', params, 'DocumentClient')
     ;
     return scanObject.perform();
   },
@@ -222,7 +222,7 @@ DynamoDBService.prototype = {
    */
   putItem: function(params) {
     const oThis = this
-      , putItemObject = new DDBServiceBaseKlass(oThis.ddbObject, 'putItem', params)
+      , putItemObject = new DDBServiceBaseKlass(oThis.ddbObject, 'put', params, 'DocumentClient')
     ;
     return putItemObject.perform();
   },
@@ -253,7 +253,7 @@ DynamoDBService.prototype = {
    */
   deleteItem: function(params) {
     const oThis = this
-      , deleteItemObject = new DDBServiceBaseKlass(oThis.ddbObject, 'deleteItem', params)
+      , deleteItemObject = new DDBServiceBaseKlass(oThis.ddbObject, 'delete', params, 'DocumentClient')
     ;
     return deleteItemObject.perform();
   },

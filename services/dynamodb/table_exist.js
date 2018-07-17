@@ -63,11 +63,11 @@ const TableExistPrototype = {
    * @return {Promise} true/false
    *
    */
-  executeDdbRequest: function() {
+  executeDbRequest: function() {
     const oThis = this
     ;
     return new Promise(async function (onResolve) {
-      const describeTableResponse = await oThis.ddbObject.queryDDB('describeTable', oThis.params);
+      const describeTableResponse = await oThis.ddbObject.queryRaw('describeTable', oThis.params);
       if (describeTableResponse.isFailure()) {
         return onResolve(responseHelper.successWithData({response: false, status: "DELETED"}));
       }
