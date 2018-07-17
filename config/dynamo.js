@@ -105,14 +105,14 @@ dynamoConfig.prototype = {
   /**
    * Get provider
    *
-   * @param clientID: clientID of client
+   * @param clientId: clientId of client
    * @param serviceType: type of service, either raw or docClient
    * @returns DynamoDB connection object
    *
    */
-  getProvider: function (clientID, serviceType) {
+  getProvider: function (clientId, serviceType) {
     const oThis = this;
-    oThis.clientID = clientID;
+    oThis.clientId = clientId;
     oThis.service = serviceType;
     oThis.connectionParams = oThis.getConfig();
     if (oThis.service == oThis.raw) {
@@ -146,8 +146,8 @@ dynamoConfig.prototype = {
   getConfig: function () {
     const oThis = this;
     let connectionParams;
-    if (clientConnectionConfigMapping.has(oThis.clientID)) {
-      connectionParams = clientConnectionConfigMapping[oThis.clientID][oThis.service];
+    if (clientConnectionConfigMapping.hasOwnProperty(oThis.clientId)) {
+      connectionParams = clientConnectionConfigMapping[oThis.clientId][oThis.service];
     }
     else {
       connectionParams = defaultConnectionConfigMapping['default'][oThis.service];
