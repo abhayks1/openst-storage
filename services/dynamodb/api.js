@@ -30,8 +30,7 @@ const rootPrefix  = "../.."
 const DynamoDBService = function(params) {
   const oThis = this
   ;
-
-  oThis.clientId = params.clientId || 'default';
+  oThis.connectionParams = params;
   oThis.ddbObject = new DdbBase(params);
 };
 
@@ -321,7 +320,7 @@ DynamoDBService.prototype = {
     const oThis = this
     ;
     // Creating a dynamoDb instance here to be passed to the shard management Api.
-    const ddbInstance = DynamoFactory.getProvider(oThis.clientId, DynamoFactory.raw);
+    const ddbInstance = DynamoFactory.getProvider(oThis.connectionParams, DynamoFactory.raw);
     return new ShardServiceApiKlass(ddbInstance);
   }
 };

@@ -9,63 +9,6 @@ const AWS = require('aws-sdk')
 AWS.config.httpOptions.keepAlive = true;
 AWS.config.httpOptions.disableProgressEvents = false;
 
-// Default connection params mapping
-const defaultConnectionConfigMapping = {
-  'default': {
-    raw: {
-      'apiVersion': process.env.OS_DYNAMODB_API_VERSION,
-      'accessKeyId': process.env.OS_DYNAMODB_ACCESS_KEY_ID,
-      'secretAccessKey': process.env.OS_DYNAMODB_SECRET_ACCESS_KEY,
-      'region': process.env.OS_DYNAMODB_REGION,
-      'endpoint': process.env.OS_DYNAMODB_ENDPOINT
-    },
-    documentClient: {
-      'apiVersion': '2017-04-19',
-      'accessKeyId': 'x',
-      'secretAccessKey': 'x',
-      'region': 'localhost',
-      'endpoint': 'http://localhost:8000'
-    }
-  }
-};
-
-// Client connection params mapping
-const clientConnectionConfigMapping = {
-  '1001': {
-    raw: {
-      'apiVersion': process.env.OS_DYNAMODB_API_VERSION,
-      'accessKeyId': process.env.OS_DYNAMODB_ACCESS_KEY_ID,
-      'secretAccessKey': process.env.OS_DYNAMODB_SECRET_ACCESS_KEY,
-      'region': process.env.OS_DYNAMODB_REGION,
-      'endpoint': process.env.OS_DYNAMODB_ENDPOINT
-    },
-    documentClient: {
-      'apiVersion': '2017-04-19',
-      'accessKeyId': 'x',
-      'secretAccessKey': 'x',
-      'region': 'localhost',
-      'endpoint': 'http://localhost:8000'
-    }
-  },
-  '1002': {
-    raw: {
-      'apiVersion': process.env.OS_DYNAMODB_API_VERSION,
-      'accessKeyId': process.env.OS_DYNAMODB_ACCESS_KEY_ID,
-      'secretAccessKey': process.env.OS_DYNAMODB_SECRET_ACCESS_KEY,
-      'region': process.env.OS_DYNAMODB_REGION,
-      'endpoint': process.env.OS_DYNAMODB_ENDPOINT
-    },
-    documentClient: {
-      'apiVersion': '2017-04-19',
-      'accessKeyId': 'x',
-      'secretAccessKey': 'x',
-      'region': 'localhost',
-      'endpoint': 'http://localhost:8000'
-    }
-  }
-};
-
-
 /**
  * Constructor for DynamoDB Config
  *
@@ -105,16 +48,15 @@ dynamoConfig.prototype = {
   /**
    * Get provider
    *
-   * @param clientId: clientId of client
+   * @param connectionParams: connectionParams of client
    * @param serviceType: type of service, either raw or docClient
    * @returns DynamoDB connection object
    *
    */
-  getProvider: function (clientId, serviceType) {
+  getProvider: function (connectionParams, serviceType) {
     const oThis = this;
-    oThis.clientId = clientId || 'default';
     oThis.serviceType = serviceType;
-    oThis.connectionParams = oThis.getConfig();
+    oThis.connectionParams = connectionParams;
     if (oThis.serviceType == oThis.raw) {
       return oThis.createRawObject();
     }
@@ -141,20 +83,6 @@ dynamoConfig.prototype = {
       oThis.documentClientObject = new AWS.DynamoDB.DocumentClient(oThis.connectionParams);
       return oThis.documentClientObject;
     }
-  },
-
-  getConfig: function () {
-    const oThis = this;
-    let connectionParams;
-    if (clientConnectionConfigMapping.hasOwnProperty(oThis.clientId)) {
-      connectionParams = clientConnectionConfigMapping[oThis.clientId][oThis.serviceType];
-    }
-    else {
-      connectionParams = defaultConnectionConfigMapping['default'][oThis.serviceType];
-    }
-    connectionParams['sslEnabled'] = (process.env.OS_DYNAMODB_SSL_ENABLED == 1);
-    connectionParams['logger'] = (process.env.OS_DYNAMODB_LOGGING_ENABLED == 1);
-    return connectionParams;
   }
 };
 
