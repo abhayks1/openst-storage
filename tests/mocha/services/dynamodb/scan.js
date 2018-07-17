@@ -43,10 +43,10 @@ describe('Scan Table', function() {
     const insertItem1Params = {
       TableName: testConstants.transactionLogTableName,
       Item: {
-        tuid: {S: "shardTableName1"},
-        cid: {N: "1"},
-        C: {S: String(new Date().getTime())},
-        U: {S: String(new Date().getTime())}
+        tuid: "shardTableName1",
+        cid: 1,
+        C: String(new Date().getTime()),
+        U: String(new Date().getTime())
       }
     };
     await helper.putItem(dynamodbApiObject, insertItem1Params, true);
@@ -54,10 +54,10 @@ describe('Scan Table', function() {
     const insertItem2Params = {
       TableName: testConstants.transactionLogTableName,
       Item: {
-        tuid: {S: "shardTableName2"},
-        cid: {N: "2"},
-        C: {S: String(new Date().getTime())},
-        U: {S: String(new Date().getTime())}
+        tuid: "shardTableName2",
+        cid: 2,
+        C: String(new Date().getTime()),
+        U: String(new Date().getTime())
       }
     };
     await helper.putItem(dynamodbApiObject, insertItem2Params, true);
@@ -68,12 +68,8 @@ describe('Scan Table', function() {
     const queryParams = {
       TableName: testConstants.transactionLogTableName,
       ExpressionAttributeValues: {
-        ":v1": {
-          S: 'shardTableName1'
-        },
-        ":v2": {
-          N: '1'
-        }
+        ":v1": 'shardTableName1',
+        ":v2": 1
       },
       FilterExpression: "#id = :v1 AND #cid = :v2",
       ExpressionAttributeNames: {"#id": 'tuid', "#cid": 'cid'}
@@ -87,12 +83,8 @@ describe('Scan Table', function() {
     const queryParams = {
       TableName: testConstants.transactionLogTableName,
       ExpressionAttributeValues: {
-        ":v1": {
-          S: 'shardTableNae1'
-        },
-        ":v2": {
-          N: '1'
-        }
+        ":v1": 'shardTableNae1',
+        ":v2": 1
       },
       FilterExpression: "#id = :v1 AND #cid = :v2",
       ExpressionAttributeNames: {"#id": 'tuid', "#cid": 'cid'}
@@ -106,9 +98,7 @@ describe('Scan Table', function() {
     const queryParams = {
       TableName: testConstants.transactionLogTableName,
       ExpressionAttributeValues: {
-        ":v1": {
-          S: 'shardTableName1'
-        }
+        ":v1": 'shardTableName1'
       },
       FilterExpression: "#id = :v1",
       ExpressionAttributeNames: {"#id": 'tuid'}
@@ -122,12 +112,8 @@ describe('Scan Table', function() {
     const queryParams = {
       TableName: 'invalidTable',
       ExpressionAttributeValues: {
-        ":v1": {
-          S: 'shardTableName1'
-        },
-        ":v2": {
-          N: '1'
-        }
+        ":v1": 'shardTableName1',
+        ":v2": 1
       },
       FilterExpression: "#id = :v1 AND #cid = :v2",
       ExpressionAttributeNames: {"#id": 'tuid', "#cid": 'cid'}
@@ -142,6 +128,6 @@ describe('Scan Table', function() {
       TableName: testConstants.transactionLogTableName
     };
     await helper.deleteTable(dynamodbApiObject, deleteTableParams, true);
-    logger.debug("Update Table Mocha Tests Complete");
+    logger.debug("Scan Mocha Tests Complete");
   });
 });

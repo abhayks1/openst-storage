@@ -43,10 +43,10 @@ describe('Update Item in Table', function() {
     const insertItemParams = {
       TableName: testConstants.transactionLogTableName,
       Item: {
-        tuid: {S: "shardTableName"},
-        cid: {N: "2"},
-        C: {S: String(new Date().getTime())},
-        U: {S: String(new Date().getTime())}
+        tuid: "shardTableName",
+        cid: 2,
+        C: String(new Date().getTime()),
+        U: String(new Date().getTime())
       }
     };
     await helper.putItem(dynamodbApiObject, insertItemParams, true);
@@ -58,17 +58,11 @@ describe('Update Item in Table', function() {
         "#c": 'C'
       },
       ExpressionAttributeValues: {
-        ":t": {
-          S: "2342"
-        }
+        ":t": "2342"
       },
         Key: {
-          tuid: {
-            S: 'shardTableName'
-          },
-          cid: {
-            N: "2"
-          }
+          tuid: 'shardTableName',
+          cid: 2
         },
       ReturnValues: "ALL_NEW",
       TableName: testConstants.transactionLogTableName,
@@ -78,37 +72,11 @@ describe('Update Item in Table', function() {
     await helper.updateItem(dynamodbApiObject, updateItemParam, true);
   });
 
-  it('update item should be unsuccessfully when key type is invalid', async function () {
-    const updateItemParam = {
-      ExpressionAttributeNames: {
-        "#c": 'C'
-      },
-      ExpressionAttributeValues: {
-        ":t": {
-          C: "2342"
-        }
-      },
-      Key: {
-        tuid: {
-          S: 'shardTableName'
-        },
-        cid: {
-          S: "2"
-        }
-      },
-      ReturnValues: "ALL_NEW",
-      TableName: testConstants.transactionLogTableName,
-      UpdateExpression: "SET #c = :t"
-    };
-
-    await helper.updateItem(dynamodbApiObject, updateItemParam, false);
-  });
-
   after(async function() {
     const deleteTableParams = {
       TableName: testConstants.transactionLogTableName
     };
     await helper.deleteTable(dynamodbApiObject, deleteTableParams, true);
-    logger.debug("Update Table Mocha Tests Complete");
+    logger.debug("Update Item Mocha Tests Complete");
   });
 });

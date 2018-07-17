@@ -8,7 +8,7 @@ const rootPrefix = "../../../.."
   , helper = require(rootPrefix + "/tests/mocha/services/dynamodb/helper")
 ;
 
-describe('Delete Table', function() {
+describe('Put Item', function() {
 
   var dynamodbApiObject = null;
 
@@ -46,26 +46,28 @@ describe('Delete Table', function() {
     const insertItemParams = {
       TableName: testConstants.transactionLogTableName,
       Item: {
-        tuid: {S: "shardTableName"},
-        cid: {N: "2"},
-        C: {S: String(new Date().getTime())},
-        U: {S: String(new Date().getTime())}
+        tuid: "shardTableName",
+        cid: 2,
+        C: String(new Date().getTime()),
+        U: String(new Date().getTime())
       }
     };
+    console.log('----insertItemParams', insertItemParams);
     await helper.putItem(dynamodbApiObject, insertItemParams, true);
   });
 
-  it('should put item with invalid datatype', async function () {
+  it('should replace item with same hash keys', async function () {
     const insertItemParams = {
       TableName: testConstants.transactionLogTableName,
       Item: {
-        tuid: {S: "shardTableName"},
-        cid: {S: "2"},
-        C: {S: String(new Date().getTime())},
-        U: {S: String(new Date().getTime())}
+        tuid: "shardTableName",
+        cid: 2,
+        C: String(new Date().getTime()),
+        U: String(new Date().getTime())
       }
     };
-    await helper.putItem(dynamodbApiObject, insertItemParams, false);
+    console.log('----insertItemParams', insertItemParams);
+    await helper.putItem(dynamodbApiObject, insertItemParams, true);
   });
 
   after(async function() {
@@ -73,7 +75,7 @@ describe('Delete Table', function() {
       TableName: testConstants.transactionLogTableName
     };
     await helper.deleteTable(dynamodbApiObject, deleteTableParams, true);
-    logger.debug("Update Table Mocha Tests Complete");
+    logger.debug("Put Item Mocha Tests Complete");
   });
 
 

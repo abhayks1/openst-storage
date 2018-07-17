@@ -86,7 +86,7 @@ TestData.prototype = {
   getBatchWriteData: function (numberOfItems) {
 
     const data = [];
-    for(var i=0; i<numberOfItems; i++) {
+    for(var i = 0; i < numberOfItems; i++) {
 
       cid++;
       tuid = `tuid_${cid}`;
@@ -94,22 +94,16 @@ TestData.prototype = {
 
 
       let item = {};
-      item.tuid = {
-        "S": tuid
-      };
-      item.cid = {
-        "N": `${cid}`
-      };
-      item.thash = {
-        "S": thash
-      };
+      item.tuid = tuid;
+      item.cid = cid;
+      item.thash = thash;
 
       data.push({'PutRequest': {"Item": item}});
     }
 
     const requestItems = {};
     requestItems[tableName] = data;
-    return {RequestItems:requestItems};
+    return {RequestItems: requestItems};
   },
 
   getBatchWriteLargeData: function (numberOfItems) {
@@ -123,15 +117,9 @@ TestData.prototype = {
 
 
       let item = {};
-      item.tuid = {
-        "S": tuid
-      };
-      item.cid = {
-        "N": `${cid}`
-      };
-      item.thash = {
-        "S": thash
-      };
+      item.tuid = tuid;
+      item.cid = cid;
+      item.thash = thash;
 
       data.push({'PutRequest': {"Item": item}});
     }
@@ -144,7 +132,7 @@ TestData.prototype = {
   getBatchWriteDataBasedOnParam: function (numberOfItems) {
 
     const data = [];
-    for(var i=0; i<numberOfItems; i++) {
+    for(var i = 0; i < numberOfItems; i++) {
 
       cid = i;
       tuid = `tuid_${cid}`;
@@ -152,15 +140,9 @@ TestData.prototype = {
 
 
       let item = {};
-      item.tuid = {
-        "S": tuid
-      };
-      item.cid = {
-        "N": `${cid}`
-      };
-      item.thash = {
-        "S": thash
-      };
+      item.tuid = tuid;
+      item.cid = cid;
+      item.thash = thash;
 
       data.push({'PutRequest': {"Item": item}});
     }

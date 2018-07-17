@@ -43,10 +43,10 @@ describe('Query Table', function() {
     const insertItemParams = {
       TableName: testConstants.transactionLogTableName,
       Item: {
-        tuid: {S: "shardTableName"},
-        cid: {N: "2"},
-        C: {S: String(new Date().getTime())},
-        U: {S: String(new Date().getTime())}
+        tuid: "shardTableName",
+        cid: 2,
+        C: String(new Date().getTime()),
+        U: String(new Date().getTime())
       }
     };
     await helper.putItem(dynamodbApiObject, insertItemParams, true);
@@ -56,16 +56,12 @@ describe('Query Table', function() {
   it('query table for item successfully', async function () {
     const queryParams = {
       TableName: testConstants.transactionLogTableName,
-        ExpressionAttributeValues: {
-          ":v1": {
-            S: 'shardTableName'
-          },
-          ":v2": {
-            N: '2'
-          }
-        },
-        KeyConditionExpression: "#id = :v1 AND #cid = :v2",
-        ExpressionAttributeNames: {"#id": 'tuid', "#cid": 'cid'}
+      ExpressionAttributeValues: {
+        ":v1": 'shardTableName',
+        ":v2": 2
+      },
+      KeyConditionExpression: "#id = :v1 AND #cid = :v2",
+      ExpressionAttributeNames: {"#id": 'tuid', "#cid": 'cid'}
     };
     const resultCount = 1;
     const response = await helper.query(dynamodbApiObject, queryParams, true, resultCount);
@@ -75,12 +71,8 @@ describe('Query Table', function() {
     const queryParams = {
       TableName: testConstants.transactionLogTableName,
       ExpressionAttributeValues: {
-        ":v1": {
-          S: 'shardTable'
-        },
-        ":v2": {
-          N: '2'
-        }
+        ":v1": 'shardTable',
+        ":v2": 2
       },
       KeyConditionExpression: "#id = :v1 AND #cid = :v2",
       ExpressionAttributeNames: {"#id": 'tuid', "#cid": 'cid'}
@@ -94,9 +86,7 @@ describe('Query Table', function() {
     const queryParams = {
       TableName: testConstants.transactionLogTableName,
       ExpressionAttributeValues: {
-        ":v1": {
-          S: 'shardTable'
-        }
+        ":v1": 'shardTable'
       },
       KeyConditionExpression: "#id = :v1",
       ExpressionAttributeNames: {"#id": 'tuid'}
@@ -110,12 +100,8 @@ describe('Query Table', function() {
     const queryParams = {
       TableName: 'invalidTable',
       ExpressionAttributeValues: {
-        ":v1": {
-          S: 'shardTable'
-        },
-        ":v2": {
-          N: '2'
-        }
+        ":v1": 'shardTable',
+        ":v2": 2
       },
       KeyConditionExpression: "#id = :v1 AND #cid = :v2",
       ExpressionAttributeNames: {"#id": 'tuid', "#cid": 'cid'}
@@ -130,6 +116,6 @@ describe('Query Table', function() {
       TableName: testConstants.transactionLogTableName
     };
     await helper.deleteTable(dynamodbApiObject, deleteTableParams, true);
-    logger.debug("Update Table Mocha Tests Complete");
+    logger.debug("Query Mocha Tests Complete");
   });
 });

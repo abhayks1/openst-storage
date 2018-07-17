@@ -46,10 +46,10 @@ describe('Delete Item', function() {
     const insertItemParams = {
       TableName: testConstants.transactionLogTableName,
       Item: {
-        tuid: {S: "shardTableName"},
-        cid: {N: "2"},
-        C: {S: String(new Date().getTime())},
-        U: {S: String(new Date().getTime())}
+        tuid: "shardTableName",
+        cid: 2,
+        C: String(new Date().getTime()),
+        U: String(new Date().getTime())
       }
     };
     await helper.putItem(dynamodbApiObject, insertItemParams, true);
@@ -57,12 +57,9 @@ describe('Delete Item', function() {
     const deleteItemParams = {
       TableName: testConstants.transactionLogTableName,
       Key: {
-        "tuid": {
-          S: "shardTableName"
-        },
-        "cid": {
-          N: "2"
-        }
+        "tuid": "shardTableName"
+        ,
+        "cid": 2
       }
     };
     await helper.deleteItem(dynamodbApiObject, deleteItemParams, true);
@@ -73,10 +70,10 @@ describe('Delete Item', function() {
     const insertItemParams = {
       TableName: testConstants.transactionLogTableName,
       Item: {
-        tuid: {S: "shardTableName"},
-        cid: {N: "2"},
-        C: {S: String(new Date().getTime())},
-        U: {S: String(new Date().getTime())}
+        tuid: "shardTableName",
+        cid: 2,
+        C: String(new Date().getTime()),
+        U: String(new Date().getTime())
       }
     };
     await helper.putItem(dynamodbApiObject, insertItemParams, true);
@@ -84,12 +81,8 @@ describe('Delete Item', function() {
     const deleteItemParams = {
       TableName: testConstants.transactionLogTableName,
       Key: {
-        "tuid": {
-          S: "shardTable"
-        },
-        "cid": {
-          N: "2"
-        }
+        "tuid": "shardTable",
+        "cid": 2
       }
     };
     await helper.deleteItem(dynamodbApiObject, deleteItemParams, true);
@@ -101,12 +94,8 @@ describe('Delete Item', function() {
     const deleteItemParams = {
       TableName: "InvalidTableName",
       Key: {
-        "tuid": {
-          S: "shardTableName"
-        },
-        "cid": {
-          N: "2"
-        }
+        "tuid": "shardTableName",
+        "cid": 2
       }
     };
     await helper.deleteItem(dynamodbApiObject, deleteItemParams, false);
@@ -118,7 +107,7 @@ describe('Delete Item', function() {
       TableName: testConstants.transactionLogTableName
     };
     await helper.deleteTable(dynamodbApiObject, deleteTableParams, true);
-    logger.debug("Update Table Mocha Tests Complete");
+    logger.debug("Delete Item Mocha Tests Complete");
   });
 
 

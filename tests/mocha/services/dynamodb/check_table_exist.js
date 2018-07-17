@@ -56,6 +56,6 @@ describe('Check table exists', function() {
       TableName: testConstants.transactionLogTableName
     };
     await helper.deleteTable(dynamodbApiObject, deleteTableParams, true);
-    logger.debug("Update Table Mocha Tests Complete");
+    logger.debug("Check Table Exists Mocha Tests Complete");
   });
 });

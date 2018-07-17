@@ -85,7 +85,7 @@ describe('Describe Dynamodb Table', function() {
     };
 
     await helper.deleteTable(dynamodbApiObject, deleteTableParams, true);
-    logger.debug("Update Table Mocha Tests Complete");
+    logger.debug("Describe Table Mocha Tests Complete");
   });
 
 

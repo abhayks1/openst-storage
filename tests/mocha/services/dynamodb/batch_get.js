@@ -6,6 +6,7 @@ const chai = require('chai')
 const rootPrefix = "../../../.."
   , testConstants = require(rootPrefix + '/tests/mocha/services/constants')
   , helper = require(rootPrefix + '/tests/mocha/services/dynamodb/helper')
+  , logger = require(rootPrefix + "/lib/logger/custom_console_logger")
   , testDataSource = require(rootPrefix + '/tests/mocha/services/dynamodb/testdata/batch_get_write_data')
 ;
 
@@ -38,32 +39,20 @@ describe('Batch get', function () {
     this.timeout(100000);
     const batchGetParams = {
       RequestItems: {
-        [testConstants.transactionLogTableName]: {
+       [testConstants.transactionLogTableName] : {
           Keys: [
             {
-              "tuid": {
-                S: "tuid_1"
-              },
-              "cid": {
-                N: "1"
-              }
+              "tuid": "tuid_1",
+              "cid": 1
             },
             {
-              "tuid": {
-                S: "tuid_2"
-              },
-              "cid": {
-                N: "2"
-              }
+              "tuid": "tuid_2",
+              "cid": 2
             },
             {
-              "tuid": {
-                S: "tuid_3"
-              },
-              "cid": {
-                N: "3"
-              }
-            }
+              "tuid": "tuid_3",
+              "cid": 3
+            },
           ]
         }
       }
@@ -80,29 +69,17 @@ describe('Batch get', function () {
         [testConstants.transactionLogTableName]: {
           Keys: [
             {
-              "tuid": {
-                S: "tuid_1"
-              },
-              "cid": {
-                N: "1"
-              }
+              "tuid": "tuid_1",
+              "cid": 1
             },
             {
-              "tuid": {
-                S: "tuid_2"
-              },
-              "cid": {
-                N: "2"
-              }
+              "tuid": "tuid_2",
+              "cid": 2
             },
             {
-              "tuid": {
-                S: "tuid_5"
-              },
-              "cid": {
-                N: "5"
-              }
-            }
+              "tuid": "tuid_5",
+              "cid": 5
+            },
           ]
         }
       }
@@ -132,12 +109,8 @@ describe('Batch get', function () {
         [testConstants.transactionLogTableName]: {
           Keys: [
             {
-              "tuid": {
-                S: "tuid_5"
-              },
-              "cid": {
-                N: "5"
-              }
+              "tuid": "tuid_5",
+              "cid": 5
             }
           ]
         }
@@ -150,6 +123,7 @@ describe('Batch get', function () {
   after(function() {
     // runs after all tests in this block
     console.log('after function called');
+    logger.debug("Batch Get Mocha Tests Complete");
   });
 
 });

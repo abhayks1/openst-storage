@@ -6,6 +6,7 @@ const chai = require('chai')
 const rootPrefix = "../../../.."
   , testConstants = require(rootPrefix + '/tests/mocha/services/constants')
   , helper = require(rootPrefix + '/tests/mocha/services/dynamodb/helper')
+  , logger = require(rootPrefix + "/lib/logger/custom_console_logger")
   , testDataSource = require(rootPrefix + '/tests/mocha/services/dynamodb/testdata/batch_get_write_data')
 ;
 
@@ -76,6 +77,7 @@ describe('Batch write', function () {
     this.timeout(100000);
     // runs after all tests in this block
     await helper.deleteTable(dynamoDBApi,testDataSource.DELETE_TABLE_DATA, true);
+    logger.debug("Batch Write Mocha Tests Complete");
   });
 
 });
