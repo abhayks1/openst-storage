@@ -41,10 +41,10 @@ const clientConnectionConfigMapping = {
     },
     DocumentClient: {
       'apiVersion': '2017-04-19',
-      'accessKeyId': process.env.OS_DYNAMODB_ACCESS_KEY_ID,
-      'secretAccessKey': process.env.OS_DYNAMODB_SECRET_ACCESS_KEY,
-      'region': process.env.OS_DYNAMODB_REGION,
-      'endpoint': process.env.OS_DYNAMODB_DAX_ENDPOINT
+      'accessKeyId': 'x',
+      'secretAccessKey': 'x',
+      'region': 'localhost',
+      'endpoint': 'http://localhost:8000'
     }
   },
   '1002': {
@@ -91,7 +91,7 @@ dynamoConfig.prototype = {
    * @constant {string}
    *
    */
-  documentClient: 'DocumentClient'
+  documentClient: 'documentClient'
   ,
 
   /**
@@ -113,12 +113,12 @@ dynamoConfig.prototype = {
   getProvider: function (clientID, serviceType) {
     const oThis = this;
     oThis.clientID = clientID;
-    oThis.serviceType = serviceType;
+    oThis.service = serviceType;
     oThis.connectionParams = oThis.getConfig();
-    if (oThis.serviceType == oThis.raw) {
+    if (oThis.service == oThis.raw) {
       return oThis.createRawObject();
     }
-    else if (oThis.serviceType == oThis.documentClient) {
+    else if (oThis.service == oThis.documentClient) {
       return oThis.createDocumentClientObject();
     }
     return null;
@@ -134,7 +134,7 @@ dynamoConfig.prototype = {
     const oThis = this;
     if (oThis.isDaxEnabled) {
       oThis.dax = new AWSDaxClient(oThis.connectionParams);
-      oThis.daxDocumentClientObject = new AWS.DynamoDB.DocumentClient({'service': oThis.dax});
+      oThis.daxDocumentClientObject = new AWS.DynamoDB.DocumentClient({service: oThis.dax});
       return oThis.daxDocumentClientObject;
     }
     else {
@@ -146,11 +146,11 @@ dynamoConfig.prototype = {
   getConfig: function () {
     const oThis = this;
     let connectionParams;
-    if (clientConnectionConfigMapping.hasOwnProperty(oThis.clientID)) {
-      connectionParams = clientConnectionConfigMapping[oThis.clientID][oThis.serviceType];
+    if (clientConnectionConfigMapping.has(oThis.clientID)) {
+      connectionParams = clientConnectionConfigMapping[oThis.clientID][oThis.service];
     }
     else {
-      connectionParams = defaultConnectionConfigMapping['default'][oThis.serviceType];
+      connectionParams = defaultConnectionConfigMapping['default'][oThis.service];
     }
     connectionParams['sslEnabled'] = (process.env.OS_DYNAMODB_SSL_ENABLED == 1);
     connectionParams['logger'] = (process.env.OS_DYNAMODB_LOGGING_ENABLED == 1);
