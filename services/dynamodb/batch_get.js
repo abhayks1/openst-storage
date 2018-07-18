@@ -146,7 +146,7 @@ const batchGetPrototype = {
 
       logger.debug("=======Base.perform.result=======");
       logger.debug(globalResponse);
-
+      console.log('------globalResponse', JSON.stringify(globalResponse));
       return globalResponse;
 
     } catch (err) {
