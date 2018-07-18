@@ -78,9 +78,11 @@ AddShard.prototype = {
     r = await oThis.validateParams();
     logger.debug("=======AddShard.validateParams.result=======");
     logger.debug(r);
+    logger.debug(oThis.params);
     if (r.isFailure()) return r;
 
     r = await availableShard.addShard(oThis.params);
+
     logger.debug("=======AddShard.addShard.result=======");
     logger.debug(r);
 

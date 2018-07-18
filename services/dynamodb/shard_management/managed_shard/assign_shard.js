@@ -135,7 +135,7 @@ AssignShard.prototype = {
           throw "assign shard :: validateParams :: getShardByName function failed OR ShardInfo not present"
         }
 
-        let allocationType = shardInfo[String(availableShardConst.ALLOCATION_TYPE)];
+        let allocationType = shardInfo[availableShardConst.ALLOCATION_TYPE];
         return allocationType === availableShardConst.enabled;
       };
 

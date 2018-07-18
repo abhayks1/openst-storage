@@ -167,7 +167,7 @@ ConfigureShard.prototype = {
     }
 
     oThis.oldEntityType = shardInfo[availableShardConst.ENTITY_TYPE];
-    oThis.oldAllocationType = shardInfo[String(availableShardConst.ALLOCATION_TYPE)];
+    oThis.oldAllocationType = shardInfo[availableShardConst.ALLOCATION_TYPE];
 
     return oThis.oldAllocationType === oThis.allocationType;
   },
