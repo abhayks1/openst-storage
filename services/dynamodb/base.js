@@ -66,6 +66,7 @@ Base.prototype = {
 
     let r = null;
     r = oThis.validateParams();
+    logger.trace("----------------------------------");
     logger.debug("=======Base.validateParams.result=======");
     logger.debug(r);
     if (r.isFailure()) return r;
@@ -125,7 +126,7 @@ Base.prototype = {
   executeDbRequest: async function () {
     const oThis = this
     ;
-    if (oThis.serviceType === 'DocumentClient') {
+    if (oThis.serviceType === 'documentClient') {
       return await oThis.ddbObject.queryDocClient(oThis.methodName, oThis.params);
     }
     else {
