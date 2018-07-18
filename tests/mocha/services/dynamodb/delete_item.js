@@ -14,7 +14,7 @@ describe('Delete Item', function() {
 
   before(async function() {
     // get dynamodbApiObject
-    dynamodbApiObject = helper.validateDynamodbApiObject(testConstants.DYNAMODB_DEFAULT_CONFIGURATIONS);
+    dynamodbApiObject = helper.validateDynamodbApiObject(testConstants.CONFIG_STRATEGIES);
 
     // put item
     const createTableParams = {
@@ -48,8 +48,8 @@ describe('Delete Item', function() {
       Item: {
         tuid: "shardTableName",
         cid: 2,
-        C: String(new Date().getTime()),
-        U: String(new Date().getTime())
+        C: new Date().getTime(),
+        U: new Date().getTime()
       }
     };
     await helper.putItem(dynamodbApiObject, insertItemParams, true);
@@ -72,8 +72,8 @@ describe('Delete Item', function() {
       Item: {
         tuid: "shardTableName",
         cid: 2,
-        C: String(new Date().getTime()),
-        U: String(new Date().getTime())
+        C: new Date().getTime(),
+        U: new Date().getTime()
       }
     };
     await helper.putItem(dynamodbApiObject, insertItemParams, true);

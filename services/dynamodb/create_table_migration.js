@@ -155,7 +155,7 @@ const CreateTableMigrationPrototype = {
     return new Promise(async function (onResolve) {
 
       logger.info("Creating table..");
-      const createTableResponse = await oThis.ddbObject.call('createTable', oThis.createTableConfig);
+      const createTableResponse = await oThis.ddbObject.queryRaw('createTable', oThis.createTableConfig);
       if(createTableResponse.isFailure()){
         return onResolve(createTableResponse);
       }
@@ -168,7 +168,7 @@ const CreateTableMigrationPrototype = {
       logger.debug("Table arn :", roleARN);
 
       logger.info("Waiting for table creation..");
-      const waitForTableExistsResponse = await oThis.ddbObject.call('waitFor','tableExists', waitForTableExistsParams);
+      const waitForTableExistsResponse = await oThis.ddbObject.queryRaw('waitFor','tableExists', waitForTableExistsParams);
       if(waitForTableExistsResponse.isFailure()){
         return onResolve(waitForTableExistsResponse);
       }
@@ -245,7 +245,7 @@ const CreateTableMigrationPrototype = {
       }
 
       // logger.info("Enable continuous backup started..");
-      // const continuousBackupResponse = await oThis.ddbObject.call('updateContinuousBackups', oThis.updateContinuousBackupConfig);
+      // const continuousBackupResponse = await oThis.ddbObject.queryRaw('updateContinuousBackups', oThis.updateContinuousBackupConfig);
       // if(continuousBackupResponse.isFailure()){
       //   return onResolve(continuousBackupResponse);
       // }

@@ -14,7 +14,7 @@ describe('Scan Table', function() {
 
   before(async function() {
     // get dynamodbApiObject
-    dynamodbApiObject = helper.validateDynamodbApiObject(testConstants.DYNAMODB_DEFAULT_CONFIGURATIONS);
+    dynamodbApiObject = helper.validateDynamodbApiObject(testConstants.CONFIG_STRATEGIES);
 
     // put item
     const createTableParams = {
@@ -45,8 +45,8 @@ describe('Scan Table', function() {
       Item: {
         tuid: "shardTableName1",
         cid: 1,
-        C: String(new Date().getTime()),
-        U: String(new Date().getTime())
+        C: new Date().getTime(),
+        U: new Date().getTime()
       }
     };
     await helper.putItem(dynamodbApiObject, insertItem1Params, true);
@@ -56,8 +56,8 @@ describe('Scan Table', function() {
       Item: {
         tuid: "shardTableName2",
         cid: 2,
-        C: String(new Date().getTime()),
-        U: String(new Date().getTime())
+        C: new Date().getTime(),
+        U: new Date().getTime()
       }
     };
     await helper.putItem(dynamodbApiObject, insertItem2Params, true);
