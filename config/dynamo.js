@@ -48,27 +48,26 @@ dynamoConfig.prototype = {
   /**
    * Get provider
    *
-   * @param connectionParams: connectionParams of client
+   * @param connectionStrategies: connectionParams of client
    * @param serviceType: type of service, either raw or docClient
    * @returns DynamoDB connection object
    *
    */
-  getProvider: function (connectionParams, serviceType) {
+  getProvider: async function (connectionStrategies, serviceType) {
     const oThis = this;
-    oThis.serviceType = serviceType;
-    oThis.connectionParams = connectionParams;
-    if (oThis.serviceType == oThis.raw) {
-      return oThis.createRawObject();
+    oThis.connectionParams = oThis.getConfig(connectionStrategies, serviceType);
+    if (serviceType === oThis.raw) {
+      return await oThis.createRawObject();
     }
-    else if (oThis.serviceType == oThis.documentClient) {
+    else if (serviceType === oThis.documentClient) {
       return oThis.createDocumentClientObject();
     }
     return null;
   },
 
-  createRawObject: function () {
+  createRawObject: async function () {
     const oThis = this;
-    oThis.dynamoDBObject = new AWS.DynamoDB(oThis.connectionParams);
+    oThis.dynamoDBObject = await new AWS.DynamoDB(oThis.connectionParams);
     return oThis.dynamoDBObject;
   },
 
@@ -83,7 +82,42 @@ dynamoConfig.prototype = {
       oThis.documentClientObject = new AWS.DynamoDB.DocumentClient(oThis.connectionParams);
       return oThis.documentClientObject;
     }
-  }
+  },
+
+  getConfig: function (connectionStrategies, serviceType) {
+    const oThis = this;
+    let connectionParams;
+    if (serviceType === oThis.raw) {
+      connectionParams = {
+        apiVersion: connectionStrategies.OS_DYNAMODB_API_VERSION,
+        accessKeyId: connectionStrategies.OS_DYNAMODB_ACCESS_KEY_ID,
+        secretAccessKey: connectionStrategies.OS_DYNAMODB_SECRET_ACCESS_KEY,
+        region: connectionStrategies.OS_DYNAMODB_REGION,
+        endpoint: connectionStrategies.OS_DYNAMODB_ENDPOINT,
+        sslEnabled: connectionStrategies.OS_DYNAMODB_SSL_ENABLED
+      }
+    }
+    else if(serviceType === oThis.documentClient) {
+      connectionParams = {
+        apiVersion: connectionStrategies.OS_DYNAMODB_API_VERSION,
+        accessKeyId: connectionStrategies.OS_DAX_ACCESS_KEY_ID,
+        secretAccessKey: connectionStrategies.OS_DAX_SECRET_ACCESS_KEY,
+        endpoint: connectionStrategies.OS_DAX_ENDPOINT,
+        sslEnabled: connectionStrategies.OS_DYNAMODB_SSL_ENABLED
+      };
+      if (connectionStrategies.OS_DAX_ENABLED) {
+        connectionParams.endpoint = connectionStrategies.OS_DAX_ENDPOINT;
+        connectionParams.region = connectionStrategies.OS_DAX_REGION
+      }
+      else {
+        connectionParams.endpoint = connectionStrategies.OS_DYNAMODB_ENDPOINT;
+        connectionParams.region = connectionStrategies.OS_DYNAMODB_REGION
+      }
+    }
+    connectionParams.logger = connectionStrategies.OS_DYNAMODB_LOGGING_ENABLED;
+    return connectionParams;
+    }
+
 };
 
 module.exports = new dynamoConfig();
