@@ -63,6 +63,7 @@ describe('services/auto_scale/api#registerScalableTarget', function () {
     this.timeout(1000000);
 
     await helper.cleanTestCaseEnvironment(dynamodbApiObject, autoScaleObj);
+    logger.debug("Register Scalable Target Mocha Tests Complete");
   });
 
 });

@@ -13,7 +13,7 @@ const rootPrefix = "../../../../.."
   , helper = require(rootPrefix + "/tests/mocha/services/shard_management/helper")
 ;
 
-const dynamoDbObject = new DynamoDbObject(testConstants.DYNAMODB_CONFIGURATIONS_REMOTE)
+const dynamoDbObject = new DynamoDbObject(testConstants.CONFIG_STRATEGIES)
   , shardManagementObject = dynamoDbObject.shardManagement()
 ;
 
@@ -34,7 +34,9 @@ const createTestCasesForOptions = function (optionsDesc, options, toAssert) {
     if (options.invalidShardName) {
       shardName = "";
     }
-    const response = await shardManagementObject.addShard({shard_name: shardName, entity_type: entity_type});
+
+    const response = await shardManagementObject.addShard({ shard_name: shardName, entity_type: entity_type});
+
     logger.log("LOG", response);
     if (toAssert) {
       assert.isTrue(response.isSuccess(), "Success");
@@ -58,9 +60,11 @@ describe('services/shard_management/available_shard/add_shard', function () {
     wrongEntityType: true
   }, false);
 
+
   createTestCasesForOptions("Shard adding invalid shard name", {
     invalidShardName: true
   }, false);
+
 
   after(async function () {
     await helper.cleanShardMigrationTables(dynamoDbObject);

@@ -60,7 +60,7 @@ describe('Create Table', function() {
   after(async function() {
     this.timeout(1000000);
     await autoScaleHelper.cleanTestCaseEnvironment(dynamodbApiObject, null);
-    logger.debug("Create Table Mocha Tests Complete");
+    logger.debug("Update Continuous Backup Mocha Tests Complete");
   });
 
 

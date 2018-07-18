@@ -57,7 +57,7 @@ describe('Create Table', function() {
 
     logger.debug("Create Table Mocha Tests Complete");
 
-    logger.log("Waiting for Table get deleted...............");
+    logger.log("Waiting for Table to get deleted...............");
     await helper.waitForTableToGetDeleted(dynamodbApiObject, params);
 
   });

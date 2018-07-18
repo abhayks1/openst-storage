@@ -14,14 +14,14 @@ const rootPrefix = "../../../.."
   , helper = require(rootPrefix + "/tests/mocha/services/shard_management/helper")
 ;
 
-const dynamoDbObject = new DynamoDbKlass(testConstants.DYNAMODB_CONFIGURATIONS_REMOTE)
+const dynamoDbObject = new DynamoDbKlass(testConstants.CONFIG_STRATEGIES)
   , shardManagementObject = dynamoDbObject.shardManagement()
 ;
 
 const createTestCasesForOptions = function (optionsDesc, options, toAssert) {
   optionsDesc = optionsDesc || "";
   options = options || {
-    availableShard: false,
+    availableShard: true,
     managedShard: false,
     runMigrationTwice: false
   };
@@ -72,6 +72,6 @@ describe('lib/services/shard_management/shard_migration', function () {
   }, true);
 
   afterEach(async function () {
-    await helper.cleanShardMigrationTables(dynamoDbObject);
+   // await helper.cleanShardMigrationTables(dynamoDbObject);
   });
 });

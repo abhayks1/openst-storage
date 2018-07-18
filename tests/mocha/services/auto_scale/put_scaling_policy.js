@@ -109,6 +109,7 @@ describe('services/auto_scale/api#putScalingPolicy', function () {
   after(async function() {
     this.timeout(1000000);
     await helper.cleanTestCaseEnvironment(dynamodbApiObject, autoScaleObj);
+    logger.debug("Put Scaling Policy Mocha Tests Complete");
   });
 
 });
