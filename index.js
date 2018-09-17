@@ -7,7 +7,8 @@
 const rootPrefix = '.',
   version = require(rootPrefix + '/package.json').version,
   entityTypesConst = require(rootPrefix + '/lib/global_constant/entity_types'),
-  InstanceComposer = require(rootPrefix + '/instance_composer');
+  InstanceComposer = require(rootPrefix + '/instance_composer'),
+  basicHelper = require(rootPrefix + '/helpers/basic');
 
 require(rootPrefix + '/lib/models/dynamodb/token_balance');
 require(rootPrefix + '/services/cache_multi_management/token_balance');
@@ -42,28 +43,6 @@ const OpenSTStorage = function(configStrategy) {
   oThis.autoScalingService = autoScalingObject;
 };
 
-const getInstanceKey = function(configStrategy) {
-  return [
-    configStrategy.OS_DAX_API_VERSION,
-    configStrategy.OS_DAX_ACCESS_KEY_ID,
-    configStrategy.OS_DAX_REGION,
-    configStrategy.OS_DAX_ENDPOINT,
-    configStrategy.OS_DAX_SSL_ENABLED,
-
-    configStrategy.OS_DYNAMODB_API_VERSION,
-    configStrategy.OS_DYNAMODB_ACCESS_KEY_ID,
-    configStrategy.OS_DYNAMODB_REGION,
-    configStrategy.OS_DYNAMODB_ENDPOINT,
-    configStrategy.OS_DYNAMODB_SSL_ENABLED,
-
-    configStrategy.OS_AUTOSCALING_API_VERSION,
-    configStrategy.OS_AUTOSCALING_ACCESS_KEY_ID,
-    configStrategy.OS_AUTOSCALING_REGION,
-    configStrategy.OS_AUTOSCALING_ENDPOINT,
-    configStrategy.OS_AUTOSCALING_SSL_ENABLED
-  ].join('-');
-};
-
 const instanceMap = {};
 
 const Factory = function() {};
@@ -71,7 +50,7 @@ const Factory = function() {};
 Factory.prototype = {
   getInstance: function(configStrategy) {
     // check if instance already present
-    let instanceKey = getInstanceKey(configStrategy),
+    let instanceKey = basicHelper.getStorageObjectKey(configStrategy),
       _instance = instanceMap[instanceKey];
 
     if (!_instance) {
